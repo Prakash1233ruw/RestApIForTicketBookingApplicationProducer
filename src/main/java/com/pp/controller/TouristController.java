@@ -22,6 +22,8 @@ import com.pp.pojo.Passenger;
 import com.pp.pojo.Ticket;
 import com.pp.service.ITicketBookingService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
 
 
@@ -29,9 +31,11 @@ import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "TIcket Booking API",description = "API is to book the tickets")
 public class TouristController {
 	@Autowired
 	private ITicketBookingService service;
+	@Operation(summary = "POST Operation ", description = "It will accept Passenger Object and returns Ticket Number")
 	@PostMapping("/getTicketNumber")
 	public ResponseEntity<Ticket> entrollPassenger(@RequestBody Passenger passenger) {
 		Passenger pas = service.registerPassenger(passenger);
@@ -42,6 +46,7 @@ public class TouristController {
 	}
 	
 	@GetMapping("/getPassengerTicket/{ticketNumber}")
+	@Operation(summary = "GET Operation" ,description = "It will accept Ticket Number and returns Ticket Information")
 	public ResponseEntity<Ticket> getPassengerInTicket(@PathVariable Integer ticketNumber) {
 		Passenger passenger = service.fetchPassengerById(ticketNumber);
 	   Ticket ticket=new Ticket();
